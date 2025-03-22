@@ -2,8 +2,9 @@ import 'dotenv/config';
 import OpenAI from "openai";
 import express from 'express';
 
+const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000; // Use the PORT environment variable provided by Vercel
+const PORT = process.env.PORT || 3000; // Use the PORT environment variable provided by Vercel
 
 const token = process.env.GITHUB_TOKEN;
 
@@ -43,6 +44,13 @@ app.post('/api/generate', async (req, res) => {
 // Serve static files (for the frontend)
 app.use(express.static('public'));
 
-app.listen(port, () => {
+app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${port}`);
+
+});
+
+module.exports = app;
+
+app.get('/home', (req, res) => {
+  res.status(200).json('Welcome, your app is working well');
 });
