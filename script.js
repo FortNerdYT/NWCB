@@ -5,6 +5,8 @@ import express from 'express';
 const app = express();
 const port = process.env.PORT || 3000; // Use the PORT environment variable provided by Vercel
 
+alert(port);
+
 const token = process.env.GITHUB_TOKEN;
 
 const client = new OpenAI({
