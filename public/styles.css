@@ -1,0 +1,118 @@
+/* General Styles */
+body {
+    font-family: 'Roboto';
+    margin: 0;
+    padding: 0;
+    background-color: #1e1e1e; /* Dark background */
+    color: #e0e0e0; /* Light text */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Chat Container */
+#chat {
+    flex: 1;
+    width: 100%;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #2d2d2d; /* Slightly lighter dark background */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Messages */
+.message {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 80%; /* Maximum width for chat bubbles */
+    width: fit-content; /* Adjust width to fit content */
+    word-wrap: break-word;
+    white-space: pre-wrap; /* Allow text to wrap and preserve line breaks */
+    overflow-wrap: break-word; /* Break long words if necessary */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+}
+
+.user {
+    background-color: #005bb5; /* DeepSeek blue for user messages */
+    color: white;
+    margin-left: auto; /* Align to the right */
+    margin-right: 50px; /* Add right margin to prevent overflow */
+    text-align: right;
+}
+
+.assistant {
+    background-color: #3a3a3a; /* Dark gray for assistant messages */
+    color: #e0e0e0;
+    margin-right: auto; /* Align to the left */
+    margin-left: 20px; /* Add left margin to prevent overflow */
+    text-align: left;
+}
+
+/* Input Container */
+#input-container {
+    width: 100%;
+    padding: 10px;
+    background-color: #2d2d2d;
+    border-top: 1px solid #333;
+    display: flex;
+    gap: 10px;
+    box-sizing: border-box;
+    align-items: flex-end; /* Align items to the bottom */
+}
+
+#prompt {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+    font-size: 16px;
+    outline: none;
+    resize: none; /* Disable manual resizing */
+    overflow-y: hidden; /* Hide vertical scrollbar */
+    min-height: 40px; /* Minimum height */
+    max-height: 150px; /* Maximum height before scrolling */
+    line-height: 1.5; /* Improve readability */
+}
+
+#prompt:focus {
+    border-color: #005bb5; /* DeepSeek blue for focus */
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #005bb5; /* DeepSeek blue */
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: fit-content; /* Match the height of the textarea */
+}
+
+button:hover {
+    background-color: #004494; /* Darker blue on hover */
+}
+
+/* Scrollbar Styling */
+#chat::-webkit-scrollbar {
+    width: 8px;
+}
+
+#chat::-webkit-scrollbar-track {
+    background: #2d2d2d;
+    border-radius: 4px;
+}
+
+#chat::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+#chat::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}

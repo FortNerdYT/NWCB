@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="chat"></div>
+    <div id="input-container">
+        <textarea id="prompt" placeholder="Type your message here..." rows="1"></textarea>
+        <button onclick="submitPrompt()">Send</button>
+    </div>
+
+    <script>
+        let conversationHistory = [];
+
+        // Function to auto-resize the textarea
+        function autoResizeTextarea() {
+            const textarea = document.getElementById('prompt');
+            textarea.style.height = 'auto'; // Reset height
+            textarea.style.height = textarea.scrollHeight + 'px'; // Set height to fit content
+        }
+
+        // Attach the auto-resize function to the textarea's input event
+        document.getElementById('prompt').addEventListener('input', autoResizeTextarea);
+
+        async function submitPrompt() {
+            const promptInput = document.getElementById('prompt');
+            const prompt = promptInput.value.trim();
+            const chatDiv = document.getElementById('chat');
+
+            if (!prompt) return; // Don't send empty messages
+
+            // Add user message to the conversation history
+            conversationHistory.push({ role: "user", content: prompt });
+
+            // Display user message in the chat
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user';
+            userMessage.textContent = `You: ${prompt}`;
+            chatDiv.appendChild(userMessage);
+
+            // Clear the input field and reset its height
+            promptInput.value = '';
+            promptInput.style.height = 'auto';
+
+            // Display "Loading..." while waiting for the AI response
+            const loadingMessage = document.createElement('div');
+            loadingMessage.className = 'message assistant';
+            loadingMessage.textContent = 'AI: Thinking...';
+            chatDiv.appendChild(loadingMessage);
+
+            try {
+                // Send the entire conversation history to the backend
+                const response = await fetch('http://localhost:3000/api/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ messages: conversationHistory }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Remove the "Loading..." message
+                chatDiv.removeChild(loadingMessage);
+
+                // Add AI response to the conversation history
+                conversationHistory.push({ role: "assistant", content: data.output });
+
+                // Display AI response in the chat
+                const aiMessage = document.createElement('div');
+                aiMessage.className = 'message assistant';
+                aiMessage.textContent = `AI: ${data.output}`;
+                chatDiv.appendChild(aiMessage);
+            } catch (error) {
+                // Remove the "Loading..." message
+                chatDiv.removeChild(loadingMessage);
+
+                // Display error message
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'message assistant';
+                errorMessage.textContent = `Error: ${error.message}`;
+                chatDiv.appendChild(errorMessage);
+            }
+
+            // Scroll to the bottom of the chat
+            chatDiv.scrollTop = chatDiv.scrollHeight;
+        }
+    </script>
+</body>
+</html>
