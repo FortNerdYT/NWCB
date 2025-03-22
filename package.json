@@ -15,7 +15,5 @@
     "openai": "^4.89.0"
   },
   "type": "module"
-  "scripts": {
-  "start": "node script.js"
-}
+  
 }
