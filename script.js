@@ -3,7 +3,7 @@ import OpenAI from "openai";
 import express from 'express';
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; // Use the PORT environment variable provided by Vercel
 
 const token = process.env.GITHUB_TOKEN;
 
